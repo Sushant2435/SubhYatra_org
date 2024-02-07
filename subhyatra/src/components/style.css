@@ -1,0 +1,376 @@
+.main-container {
+  height: 800px;
+  width: 100%;
+  background: url('../../public/images/tour1.png');
+  background-repeat: no-repeat;
+  /* background-position: center; */
+  background-size: cover;
+
+}
+
+.headline {
+  padding-top: 250px;
+}
+
+.invalid-input {
+  color: red;
+  display: block;
+}
+
+.navbar-collapse {
+  display: none;
+}
+
+.help-img {
+  border-radius: 30%;
+}
+
+.navbar-collapse.show {
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 280px;
+  z-index: 1000;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding-top: 3.5rem;
+  transition: transform 0.3s ease-in-out;
+}
+
+.navbar-expand-lg .navbar-collapse.show {
+  transform: translateX(0);
+}
+
+.navbar-collapse.show a {
+  display: block;
+  padding: 0.5rem 1rem;
+  color: #333;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.navbar-collapse.show a:hover {
+  background-color: #f5f5f5;
+}
+
+.image-container {
+  height: 180px;
+  overflow: hidden;
+}
+
+.sidebar-toggle-btn {
+  border: none;
+  background: transparent;
+  font-size: 24px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.sidebar-toggle-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  z-index: 1100;
+}
+
+.search-input {
+  border: 2px solid skyblue;
+  width: 250px;
+  padding-left: 20px;
+  margin-left: 30px;
+  border-radius: 10px;
+}
+
+.error-msg {
+  color: red;
+  margin-top: -10 important !;
+  margin-left: 30px;
+}
+
+.circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #3498db;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  font-size: 25px;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+/* Style for the letter */
+.letter {
+  margin-bottom: 5px;
+  outline: none;
+  text-align: center;
+}
+
+.profile-circle {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background-color: #3498db;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  font-size: 100px;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.user-name {
+  margin-bottom: 25px;
+  outline: none;
+  text-align: center;
+
+}
+
+.gradient-custom {
+  background: linear-gradient(45deg, #FFC0CB, #FFFF00);
+}
+
+.subscription.bg-white {
+  background: none;
+}
+
+.bg-white {
+  background-color: #fff !important;
+}
+
+.subscription.bg-white .subscription-wrapper {
+  background: rgb(42, 41, 41);
+}
+
+.subscription-wrapper {
+  border-radius: 0% 5% 10% 3%/10% 20% 0% 17%;
+  -webkit-transform: perspective(1800px) rotateY(20deg) skewY(1deg) translateX(50px);
+  transform: perspective(1800px) rotateY(20deg) skewY(1deg) translateX(50px);
+  padding: 70px 50px;
+  z-index: 1;
+  width: 100%;
+  margin-top: 150px;
+  background: linear-gradient(80deg, #0030cc 0%, #00a4db 100%);
+  /* position: absolute;
+  top: 100px; */
+
+}
+
+.subscription-wrapper {
+  box-shadow: 0px 15px 39px 0px rgba(8, 18, 109, 0.1) !important;
+}
+
+.subscription-content {
+  -webkit-transform: skewY(-1deg);
+  transform: skewY(-1deg);
+}
+
+h3,
+.h3 {
+  font-size: 30px;
+}
+
+.flex-fill {
+  -ms-flex: 1 1 auto !important;
+  flex: 1 1 auto !important;
+}
+
+.subscription.bg-white .form-control {
+  border: 1px solid #ebebeb !important;
+}
+
+.subscription-wrapper .form-control {
+  height: 60px;
+  border-radius: 45px;
+}
+
+.subscription-wrapper .form-control:focus {
+  outline: 0;
+  box-shadow: none;
+}
+
+.btn:not(:disabled):not(.disabled) {
+  cursor: pointer;
+}
+
+.btn-primary {
+  border: 0;
+  color: #fff;
+}
+
+
+
+.subscribe-button {
+  font-size: 16px;
+  font-family: "Poppins", sans-serif;
+  text-transform: capitalize;
+  padding: 18px 45px;
+  border-radius: 45px;
+  font-weight: 500;
+  border: 1px solid;
+  position: relative;
+  z-index: 1;
+  transition: .3s ease-in;
+  overflow: hidden;
+}
+
+.subscribe-button-color:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 102%;
+  height: 100%;
+  background: linear-gradient(45deg, #00a8f4 0%, #02d1a1 100%);
+  z-index: -1;
+  transition: ease 0.3s;
+}
+
+.py-7 {
+  padding: 150px 0px;
+}
+
+.pt-6 {
+  padding-top: 100px;
+}
+
+@media only screen and (max-width: 992px) {
+  .logo {
+    position: absolute;
+    top: 0;
+  }
+
+  .search-input {
+    margin-left: 10px;
+  }
+}
+
+@media only screen and (min-width: 992px) {
+  .sidebar-toggle-btn {
+    display: none;
+  }
+}
+
+.card-image {
+  height: 200px;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  border: 2px solid white;
+  border-radius: 10px;
+}
+
+.zoom-container {
+  overflow: hidden;
+  transition: transform 0.3s;
+}
+
+.zoom-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s;
+}
+
+.zoom-image:hover {
+  transform: scale(1.2);
+  /* Adjust the scale value as per your desired zoom level */
+}
+
+.mt-6 {
+  margin-top: 2rem;
+}
+
+.mt-10 {
+  margin-top: 5rem;
+}
+
+.card-image {
+  height: 200px;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  border: 2px solid white;
+  border-radius: 10px;
+}
+
+.page_image {
+  height: 400px;
+
+}
+
+.cursor {
+  cursor: pointer;
+}
+
+.wishlist-btn:hover {
+  background-color: rgb(170, 174, 177)
+}
+
+.heart-hover {
+  color: white;
+}
+
+.heart-hover:hover,
+.heart-hover:focus {
+  font-weight: 700 !important;
+  color: red;
+}
+
+.height40 {
+  height: 50px;
+}
+
+.widht40 {
+  width: 50px;
+}
+
+.red-heart {
+  padding-top: 10px;
+  padding-left: 10px;
+}
+
+.margin-top {
+  top: -10px;
+  left: -10px;
+}
+
+.top-18 {
+  top: 18px;
+
+}
+
+.btn-group {
+  border-bottom: 2px solid black;
+  width: 100%;
+
+}
+
+.btn-group__item {
+  border: none;
+  padding: 1.5rem 3rem;
+  background-color: rgb(255, 255, 255);
+  cursor: pointer;
+  margin: 0;
+  font-size: 17px;
+  box-shadow: inset 0px 0px 0px -15px rebeccapurple;
+  transition: all 300ms ease-out;
+  text-transform: capitalize;
+}
+
+.btn-group__item:hover,
+.btn-group__item:focus {
+  color: rebeccapurple;
+  box-shadow: inset 10px -20px 0px -15px rebeccapurple;
+}
+
+.btn-group__item:focus {
+  outline: none;
+}
