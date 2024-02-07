@@ -49,7 +49,7 @@ const Signup = ({ updateUser }) => {
     }
     return (
         <div className="bg-white border rounded-5 pt-6">
-            <section className="py-3 px-5 w-100" style={{ backgroundColor: "#eee", borderRadius: ".5rem .5rem 0 0" }}>
+            <section className="py-3 px-lg-5 px-md-4 p-sm-2 px-xl-5 px-1 w-100" style={{ backgroundColor: "#eee", borderRadius: ".5rem .5rem 0 0" }}>
                 <div className="row">
                     <div className="col-12">
                         <div className="card text-black" style={{ borderRadius: "25px" }}>
@@ -58,15 +58,17 @@ const Signup = ({ updateUser }) => {
                                     <div className="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
                                         <p className="text-center h1 fw-bold mb-5 mt-4">Sign up</p>
                                         <form>
-                                            <div className="d-flex ms-5 px-4 mb-2 ">
-                                                Register As
-                                                <div className="form-check ms-5">
+                                            <div className="d-flex ms-5 ps-4 mb-2 flex-column flex-md-row flex-lg-row flex-xl-row">
+                                                <div className="mb-sm-2 ps-sm-2">
+                                                    Register As
+                                                </div>
+                                                <div className="form-check ms-lg-5 ms-md-4 ms-sm-2 ms-xl-5 ms-2">
                                                     <input className="form-check-input" type="radio" id="userType" name="userType" value="User" onChange={(e) => setUserType(e.target.value)} />
                                                     <label className="form-check-label" htmlFor="userType">
                                                         User
                                                     </label>
                                                 </div>
-                                                <div className="form-check ms-4">
+                                                <div className="form-check ms-lg-5 ms-md-4 ms-sm-2 ms-xl-5 ms-2">
                                                     <input className="form-check-input" type="radio" id="adminType" name="userType" value="Admin" onChange={(e) => setUserType(e.target.value)} />
                                                     <label className="form-check-label" htmlFor="adminType">
                                                         Admin
@@ -109,13 +111,14 @@ const Signup = ({ updateUser }) => {
                                             </div>
                                             <div className="d-flex flex-row align-items-center mb-4">
                                                 <i className="fas fa-mobile-alt fa-lg mb-4 me-5 fa-fw"></i>
-                                                <div className="form-outline flex-fill mb-0">
+                                                <div className="form-outline flex-fill mb-0 ">
                                                     <label className="form-label" htmlFor="user-number" style={{ marginLeft: "0px" }} >Mobile Number</label>
                                                     <PhoneInput
+                                                        defaultCountry="IN"
                                                         id="user-number"
-                                                        className="form-control"
+                                                        className="form-control "
                                                         value={mobile_number}
-                                                        onChange={(value) => setMobileNumber(value)}
+                                                        onChange={(value, country) => setMobileNumber(value)}
                                                         required
                                                     />
                                                     {error && !mobile_number && <span className='invalid-input'>Enter your Mobile Number</span>}

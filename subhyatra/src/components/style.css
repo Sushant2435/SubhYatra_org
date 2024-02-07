@@ -404,3 +404,10 @@ h3,
 .btn-group__item:focus {
   outline: none;
 }
+
+@media only screen and (max-width: 350px) {
+  .PhoneInput input {
+    border: none;
+    width: 50%;
+  }
+}

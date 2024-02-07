@@ -10,6 +10,9 @@ const Navbar = () => {
     const toggleSidebar = () => {
         setShowSidebar(!showSidebar);
     };
+    const handleNavbarItemClick = () => {
+        setShowSidebar(false); // Close sidebar when a navbar item is clicked
+    };
     useEffect(() => {
         const closeSidebar = (event) => {
             if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
@@ -51,7 +54,7 @@ const Navbar = () => {
                             />
                         </Link>
                         <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li ><Link to="/wishlist" className="nav-link me-4">
+                            <li onClick={handleNavbarItemClick} ><Link to="/wishlist" className="nav-link me-4">
                                 <span>Wishlist</span> <i className="hello fa-sharp fa-regular fa-heart icon-color"></i>
                             </Link>
                             </li>
@@ -59,13 +62,13 @@ const Navbar = () => {
                                 Category
                             </Link>
                                 <ul className="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                    <li><Link className="dropdown-item" to="/nature">Nature</Link></li>
-                                    <li><Link className="dropdown-item" to="/culture">Culture</Link></li>
-                                    <li><Link className="dropdown-item" to="/food">Food</Link></li>
-                                    <li><Link className="dropdown-item" to="/activities">Activities</Link></li>
+                                    <li onClick={handleNavbarItemClick}><Link className="dropdown-item" to="/nature">Nature</Link></li>
+                                    <li onClick={handleNavbarItemClick}><Link className="dropdown-item" to="/culture">Culture</Link></li>
+                                    <li onClick={handleNavbarItemClick}><Link className="dropdown-item" to="/food">Food</Link></li>
+                                    <li onClick={handleNavbarItemClick}><Link className="dropdown-item" to="/activities">Activities</Link></li>
                                 </ul>
                             </li>
-                            <li className="nav-item">
+                            <li className="nav-item" onClick={handleNavbarItemClick}>
                                 <Link className="nav-link me-4" to="/Help">
                                     {showSidebar ? (
                                         <>
@@ -76,7 +79,7 @@ const Navbar = () => {
                                     )}
                                 </Link>
                             </li>
-                            <li className="nav-item">
+                            <li className="nav-item" onClick={handleNavbarItemClick}>
                                 <Link className="nav-link me-4" to="/">
                                     {showSidebar ? (
                                         <>
@@ -88,7 +91,7 @@ const Navbar = () => {
                                 </Link>
                             </li>
                             {user_type == "Admin" ?
-                                <li >
+                                <li onClick={handleNavbarItemClick}>
                                     <Link to="/CraeteProduct" className="nav-link me-4">Create Product </Link>
                                 </li> : null}
                             <li className="nav-item mt-1 ">
