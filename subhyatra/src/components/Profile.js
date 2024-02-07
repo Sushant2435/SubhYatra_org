@@ -28,9 +28,9 @@ const Profile = ({ updateUser }) => {
                         <div className="col col-lg-6 mb-4 mb-lg-0">
                             <div className="card mb-3" style={{ borderRadius: ".5rem" }}>
                                 <div className="row g-0">
-                                    <div className="col-md-4 gradient-custom text-center text-white"
+                                    <div className="col-md-4 gradient-custom text-center justify-content-center text-white"
                                         style={{ borderTopLeftRadius: ".5rem", borderBottomLeftRadius: ".5rem" }}>
-                                        <div to="/profile" className="profile-circle border-0 my-5 mx-5 ">
+                                        <div className="profile-circle border-0 my-5 mx-5 ">
                                             <span className="user-name img-fluid align-item-center " >{userDetails.name[0]}</span>
                                         </div>
                                         <h5>{userDetails.name}</h5>

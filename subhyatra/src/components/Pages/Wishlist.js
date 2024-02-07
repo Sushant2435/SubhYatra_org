@@ -66,10 +66,9 @@ const Wishlist = () => {
                     </div>
                 </nav>
                 {wishList.length !== 0 ? (
-                    <div className='row f-flex justify-content-center my-5'>
-
+                    <div className='row justify-content-center my-5'>
                         {wishList.map((data) => (
-                            <div className="card mb-3 col-lg-6 col-md-5 col-sm-7 ms-4 px-0 " style={{ maxWidth: "540px" }} key={data._id}>
+                            <div className="card mb-3 col-lg-6 col-xl-6 col-md-4 col-sm-10 col-10 mx-5 px-0 " style={{ maxWidth: "540px" }} key={data._id}>
                                 <div className="row g-0 position-relative">
                                     <div className="col-md-12 col-lg-5 col-sm-12">
                                         <img src={`${data.image}`}

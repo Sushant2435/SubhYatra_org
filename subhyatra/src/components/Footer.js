@@ -100,7 +100,7 @@ const Footer = () => {
 
                 <div className="text-center p-4 text-white" style={{ backgroundColor: "rgba(0, 0, 0, 0.05)" }}>
                     © 2024 Copyright:
-                    <Link className="text-white ms-3 fw-bold" to="/">Subhyatra.com</Link>
+                    <a href="https://yatrasubh.netlify.app/" target="_blank" className="text-white ms-3 fw-bold" to="/">yatrasubh.netlify.app</a>
                 </div>
             </footer >
         </div>

@@ -46,10 +46,10 @@ const Navbar = () => {
                         </div>
                         <Link className="navbar-brand mt-1 mt-lg-0 py-0 logo" to="/">
                             <img
-                                src="https://subhyatraorg.netlify.app/images/log.png"
+                                src="../images/shubh_logo.png"
                                 height="60"
                                 width="100"
-                                alt="MDB Logo"
+                                alt="Subh logo"
                                 loading="lazy"
                             />
                         </Link>
