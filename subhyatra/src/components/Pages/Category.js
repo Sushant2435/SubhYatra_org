@@ -7,14 +7,19 @@ import { ProductsContext } from '../../App'
 import addToWishlist from '../../global function/Jsfunction'
 const PageCategory = () => {
     const { products, setProducts } = useContext(ProductsContext);
+    const [showSuccess, setShowSuccess] = useState(false);
     const pageType = useLocation().pathname;
-    const navigate = useNavigate();
     const filteredProducts = products.filter(item => {
         return item.type === pageType.substring(1);
     })
     const handleAddToWishlist = (card) => {
         addToWishlist(card);
-        navigate('/wishlist')
+    };
+    const showSuccessMessage = () => {
+        setShowSuccess(true);
+        setTimeout(() => {
+            setShowSuccess(false);
+        }, 600);
     };
     return (
         <>
@@ -28,7 +33,7 @@ const PageCategory = () => {
                                         <img src={card.image} className="card-img-top zoom-image w-100 h-100 object-fit-cover" alt="Hollywood Sign on The Hill" />
                                     </div>
                                     <button
-                                        onClick={(e) => { e.preventDefault(); handleAddToWishlist(card); }} // Pass the entire card object to addToWishlist
+                                        onClick={(e) => { e.preventDefault(); handleAddToWishlist(card); showSuccessMessage() }} // Pass the entire card object to addToWishlist
                                         type="button"
                                         data-bs-toggle="tooltip"
                                         data-bs-placement="top"
@@ -50,6 +55,9 @@ const PageCategory = () => {
                             </div>
                         </div>
                     ))}
+                </div>
+                <div id="successMessage" className={`alert alert-success fixed-top text-center ${showSuccess ? 'd-block' : 'd-none'}`}>
+                    Your item deleted successfully from your wishlist.
                 </div>
             </div>
             <TopSight />

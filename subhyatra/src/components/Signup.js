@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import 'react-phone-number-input/style.css'
+import PhoneInput from 'react-phone-number-input'
 import { useNavigate } from "react-router-dom";
 const BASE_URL = process.env.REACT_APP_API_URL
 const Signup = ({ updateUser }) => {
@@ -109,7 +111,13 @@ const Signup = ({ updateUser }) => {
                                                 <i className="fas fa-mobile-alt fa-lg mb-4 me-5 fa-fw"></i>
                                                 <div className="form-outline flex-fill mb-0">
                                                     <label className="form-label" htmlFor="user-number" style={{ marginLeft: "0px" }} >Mobile Number</label>
-                                                    <input type="number" id="user-number" className="form-control" value={mobile_number} onChange={(e) => setMobileNumber(e.target.value)} required />
+                                                    <PhoneInput
+                                                        id="user-number"
+                                                        className="form-control"
+                                                        value={mobile_number}
+                                                        onChange={(value) => setMobileNumber(value)}
+                                                        required
+                                                    />
                                                     {error && !mobile_number && <span className='invalid-input'>Enter your Mobile Number</span>}
                                                 </div>
                                             </div>
