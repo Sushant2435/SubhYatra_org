@@ -35,9 +35,11 @@ const Login = ({ updateUser }) => {
             } else {
                 // Check for different login scenarios
                 if (result.result === 'Email not registered') {
-                    alert('Email not registered. Please sign up.');
+                    alert(result.result);
+                } else if (result.result === 'Account not verified. Please verify your account.') {
+                    alert(result.result);
                 } else if (result.result === 'Incorrect password') {
-                    alert('Incorrect password. Please Enter correct password.');
+                    alert(result.result);
                 } else {
                     alert('Login failed. Please try again.');
                 }

@@ -31,12 +31,15 @@ const Signup = ({ updateUser }) => {
                     }
                 });
                 const data = await result.json();
-
-                if (data.user && data.auth) {
-                    localStorage.setItem("user", JSON.stringify(data.user));
-                    localStorage.setItem("token", JSON.stringify(data.auth));
-                    updateUser(data.user);
-                    navigate('/');
+                console.log(data);
+                if (data.status === 'PENDING') {
+                    localStorage.setItem("UserId", data.data.userId);
+                    alert("Check Your mail for OTP Verification");
+                    navigate('/VerifyAccount');
+                    // updateUser(data.user);
+                } else if (data.error == "Email already registered but not verified verify your account") {
+                    alert(data.error);
+                    navigate("/VerifyAccount")
                 } else if (data.error == "Email already registered") {
                     alert("Your email Already registered, Please try to login")
                 }
@@ -45,7 +48,6 @@ const Signup = ({ updateUser }) => {
             alert("Server error message:", error);
 
         }
-
     }
     return (
         <div className="bg-white border rounded-5 pt-6">
