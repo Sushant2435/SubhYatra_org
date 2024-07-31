@@ -38,6 +38,7 @@ const Login = ({ updateUser }) => {
                     alert(result.result);
                 } else if (result.result === 'Account not verified. Please verify your account.') {
                     alert(result.result);
+                    navigate('/VerifyAccount');
                 } else if (result.result === 'Incorrect password') {
                     alert(result.result);
                 } else {
@@ -66,7 +67,7 @@ const Login = ({ updateUser }) => {
         });
     }, []);
     return (
-        <div div className="container-fluid h-custom" action="post" data-component="Login" >
+        <div className="container-fluid h-custom pt-6" action="post" data-component="Login" >
             <div className="row d-flex justify-content-center align-items-center h-100">
                 <div className="col-md-9 col-lg-6 col-xl-6 my-lg-5 py-lg-5">
                     <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp" className="img-fluid" alt="Sample" />

@@ -16,26 +16,31 @@ import ComingSoon from './components/Pages/comingsoon';
 import UpdateProfile from './components/updateProfile';
 import Forgetpassword from './components/Forgetpassword';
 import Reset_password from './components/reset-password';
-import Privatecomponent from './components/PrivateComponent';
 import VerifyOTP from './components/VerifyOTP';
+import CartPage from './components/Pages/CartPage';
+import { steps } from './components/Pages/chatbot'
+import ChatBot from 'react-simple-chatbot'
+
 export const ProductsContext = createContext();
 const BASE_URL = process.env.REACT_APP_API_URL
-
-
 
 function App() {
   const [user, setUser] = useState(null);
   const [products, setProducts] = useState([]);
   const UserContext = React.createContext('user');
+  const [showChatbot, setShowChatbot] = useState(false);
+
+
+  const toggleChatbot = () => {
+    setShowChatbot(!showChatbot);
+  };
 
   const updateUser = (userData) => {
     setUser(userData);
   };
   useEffect(() => {
-    if (products.length === 0) {
-      getProducts();
-    }
-  }, [products]);
+    getProducts();
+  }, []);
 
   const getProducts = async () => {
     try {
@@ -46,27 +51,44 @@ function App() {
       console.error("Error fetching products:", error);
     }
   };
+  const searchHandle = async (event) => {
+    let key = event.target.value;
+    if (key) {
+      try {
+        let result = await fetch(`${BASE_URL}/search/${key}`, {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+        result = await result.json();
+        setProducts(result);
+      } catch (error) {
+        console.error("Error searching products:", error);
+      }
+    } else {
+      getProducts();
+    }
+  };
   return (
     <div className="App">
       <BrowserRouter>
-        <Navbar />
+        <Navbar searchHandle={searchHandle} />
         <UserContext.Provider value={user}>
           <ProductsContext.Provider value={{ products, setProducts }}>
             <Routes>
-              <Route path='/' element={<Privatecomponent />} >
-                <Route path='/' element={<Home />} />
-                <Route path='/profile/:id' element={<Profile updateUser={updateUser} />} />
-                <Route path='/Help' element={<Contact />} />
-                <Route path='/nature' element={< PageCategory />} />
-                <Route path='/culture' element={<PageCategory />} />
-                <Route path='/food' element={<PageCategory />} />
-                <Route path='/activities' element={<PageCategory />} />
-                <Route path='/visitpage' element={<VisitPage />} />
-                <Route path='/wishlist' element={<Wishlist />} />
-                <Route path='/CraeteProduct' element={<CreateProdcut />} />
-                <Route path='/comingup' element={<ComingSoon />} />
-                <Route path='/updateProfile' element={<UpdateProfile />} />
-              </Route>
+              <Route path='/' element={<Home />} />
+              <Route path='/profile/:id' element={<Profile updateUser={updateUser} />} />
+              <Route path='/Help' element={<Contact />} />
+              <Route path='/nature' element={< PageCategory />} />
+              <Route path='/culture' element={<PageCategory />} />
+              <Route path='/food' element={<PageCategory />} />
+              <Route path='/activities' element={<PageCategory />} />
+              <Route path='/cart' element={<CartPage />} />
+              <Route path='/wishlist' element={<Wishlist />} />
+              <Route path='/CreateProduct' element={<CreateProdcut />} />
+              <Route path='/comingup' element={<ComingSoon />} />
+              <Route path='/updateProfile' element={<UpdateProfile />} />
+              <Route path='/VisitPage' element={<VisitPage />} />
               <Route path='/Forgetpassword' element={<Forgetpassword />} />
               <Route path='/reset-password/:id/:token' element={<Reset_password />} />
               <Route path='/signup' element={<Signup updateUser={updateUser} />} />
@@ -75,6 +97,12 @@ function App() {
             </Routes>
           </ProductsContext.Provider>
         </UserContext.Provider>
+        <div className='chatbot-container'>
+          {showChatbot && <ChatBot steps={steps} />}
+        </div>
+        <button onClick={toggleChatbot} className="toggle-chatbot-button button">
+          Chat Now
+        </button>
         <Footer />
       </BrowserRouter>
     </div >

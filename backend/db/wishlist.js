@@ -2,7 +2,8 @@ const mongoose = require('mongoose');
 
 const wishListSchema = new mongoose.Schema({
     _id: String,
-    userId: String,
+    product_user: String,
+    wishlist_userId: String,
     title: String,
     type: String,
     image: String,

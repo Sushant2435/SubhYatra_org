@@ -42,8 +42,8 @@ const Footer = () => {
                                     <i className="fas fa-gem me-3 text-white"></i>Subh Yatra
                                 </h6>
                                 <p className="text-white">
-                                    Here you can use rows and columns to organize your footer content. Lorem ipsum
-                                    dolor sit amet, consectetur adipisicing elit.
+
+                                    Discover unforgettable journeys with Subh Yatra, offering curated tours from serene beaches to majestic mountains. Experience adventure, culture, and relaxation with our expertly crafted travel packages.
                                 </p>
                             </div>
 
@@ -52,16 +52,16 @@ const Footer = () => {
                                     Categories
                                 </h6>
                                 <p>
-                                    <Link to="/nature" className="text-white">Nature</Link>
+                                    <Link to="/nature" className="text-white  footer-link">Nature</Link>
                                 </p>
                                 <p>
-                                    <Link to="/culture" className="text-white">Culture</Link>
+                                    <Link to="/culture" className="text-white  footer-link">Culture</Link>
                                 </p>
                                 <p>
-                                    <Link to="/food" className="text-white">Food</Link>
+                                    <Link to="/food" className="text-white  footer-link">Food</Link>
                                 </p>
                                 <p>
-                                    <Link to="/activities" className="text-white">Activitis</Link>
+                                    <Link to="/activities" className="text-white  footer-link">Activitis</Link>
                                 </p>
                             </div>
 
@@ -70,17 +70,17 @@ const Footer = () => {
                                 </h6>
                                 {user && (
                                     <p>
-                                        <Link to={`/profile/${user._id}`} className="text-white">Profile Information</Link>
+                                        <Link to={`/profile/${user._id}`} className="text-white  footer-link">Profile Information</Link>
                                     </p>
                                 )}
                                 <p>
-                                    <Link to="/wishlist" className="text-white">Wishlist</Link>
+                                    <Link to="/wishlist" className="text-white  footer-link">Wishlist</Link>
                                 </p>
                                 <p>
-                                    <Link to="#!" className="text-white">Orders</Link>
+                                    <Link to="#!" className="text-white  footer-link">Orders</Link>
                                 </p>
                                 <p>
-                                    <Link to="Help" className="text-white">Help</Link>
+                                    <Link to="Help" className="text-white  footer-link">Help</Link>
                                 </p>
                             </div>
 

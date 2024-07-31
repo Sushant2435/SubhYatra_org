@@ -35,7 +35,7 @@ const Profile = ({ updateUser }) => {
                                         </div>
                                         <h5>{userDetails.name}</h5>
                                         <p>Customer</p>
-                                        <button type="button" className="btn" data-bs-toggle="modal" data-bs-target="#exampleModal"><i className="far fa-edit"></i></button>
+                                        <button type="button" className="btn" data-bs-toggle="modal" data-bs-target="#profileModal"><i className="far fa-edit"></i></button>
                                     </div>
                                     <UpdateProfile onProfileUpdate={handleProfileUpdate} />
 

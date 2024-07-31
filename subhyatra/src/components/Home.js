@@ -1,18 +1,12 @@
 
 // Component: UserProfile.js
 import React, { useState } from 'react'
-import TopSight from './CultureSight'
+import TopSight from './TopSight'
 import TopCities from './TopCities'
 import Partner from './Partner'
 import ReviewList from './ClientReview'
-import ChatBot from 'react-simple-chatbot'
-import { steps } from './Pages/chatbot'
 const Home = () => {
-    const [showChatbot, setShowChatbot] = useState(false);
 
-    const toggleChatbot = () => {
-        setShowChatbot(!showChatbot);
-    };
     return (
         <div data-component="Home">
             <div className="main-container position-relative image-fluid">
@@ -23,12 +17,6 @@ const Home = () => {
                     <p className="text-white display1">Learn more..... </p>
 
                 </div>
-                <div className='chatbot-container'>
-                    {showChatbot && <ChatBot steps={steps} />}
-                </div>
-                <button onClick={toggleChatbot} className="toggle-chatbot-button button">
-                    Chat Now
-                </button>
             </div>
             <div className='container mt-5'>
                 <TopSight />

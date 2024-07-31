@@ -1,18 +1,27 @@
-// File name  Navbar.js 
-import React, { useState, useRef, useEffect } from 'react'
-import { Link } from 'react-router-dom'
-const Navbar = () => {
-    const [showSidebar, setShowSidebar] = useState(false)
+import React, { useState, useRef, useEffect } from 'react';
+import EnqueryForm from './Pages/EnqueryForm';
+import { Link, useLocation } from 'react-router-dom';
+
+const Navbar = ({ searchHandle }) => {
+    const [showSidebar, setShowSidebar] = useState(false);
     const sidebarRef = useRef(null);
+    const searchInputRef = useRef(null);
+    const [inputValue, setInputValue] = useState('');
+    const [scrolled, setScrolled] = useState(false); // State to track if scrolled
+    const location = useLocation();
+
     let auth = localStorage.getItem('user');
     let user = auth ? JSON.parse(auth) : null;
     let user_type = user ? user.userType : null;
+
     const toggleSidebar = () => {
         setShowSidebar(!showSidebar);
     };
+
     const handleNavbarItemClick = () => {
-        setShowSidebar(false); // Close sidebar when a navbar item is clicked
+        setShowSidebar(false);
     };
+
     useEffect(() => {
         const closeSidebar = (event) => {
             if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
@@ -26,9 +35,34 @@ const Navbar = () => {
         };
     }, []);
 
+    const handleSearchChange = (e) => {
+        const value = e.target.value;
+        setInputValue(value);
+        // Check if on home screen and input length is 3 and not scrolled yet
+        if (location.pathname === '/' && value.length === 3 && !scrolled) {
+            window.scrollTo({ top: window.scrollY + window.innerHeight });
+            setScrolled(true); // Set scrolled to true to prevent further scrolls
+        }
+        searchHandle(e);
+    };
+
+
+    const handleScroll = () => {
+        if (window.scrollY === 0) {
+            setScrolled(false); // Reset scrolled state when scrolled to the top
+        }
+    };
+
+    useEffect(() => {
+        window.addEventListener('scroll', handleScroll);
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
+
     return (
         <div>
-            <nav className="navbar  navbar-expand-lg navbar-light fixed-top" style={{ backgroundColor: "#e3f2fd" }}>
+            <nav className="navbar navbar-expand-lg navbar-light fixed-top" style={{ backgroundColor: "#e3f2fd" }}>
                 <div className="container-fluid">
                     <button onClick={toggleSidebar} className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
@@ -68,6 +102,10 @@ const Navbar = () => {
                                     <li onClick={handleNavbarItemClick}><Link className="dropdown-item" to="/activities">Activities</Link></li>
                                 </ul>
                             </li>
+                            <li onClick={handleNavbarItemClick} ><Link to="/" className="nav-link me-4">
+                                <div data-bs-toggle="modal" data-bs-target="#exampleModal"><span>Enquiry</span> </div>
+                            </Link>
+                            </li>
                             <li className="nav-item" onClick={handleNavbarItemClick}>
                                 <Link className="nav-link me-4" to="/Help">
                                     {showSidebar ? (
@@ -90,12 +128,12 @@ const Navbar = () => {
                                     )}
                                 </Link>
                             </li>
-                            {user_type == "Admin" ?
+                            {user_type === "Admin" &&
                                 <li onClick={handleNavbarItemClick}>
-                                    <Link to="/CraeteProduct" className="nav-link me-4">Create Product </Link>
-                                </li> : null}
+                                    <Link to="/CreateProduct" className="nav-link me-4">Create Product </Link>
+                                </li>}
                             <li className="nav-item mt-1 ">
-                                <input className="search-input py-1 " placeholder='Search' type="text" name="" id="" />
+                                <input ref={searchInputRef} className="search-input py-1 " placeholder='Search' type="text" onChange={handleSearchChange} value={inputValue} name="" id="" />
                             </li>
                         </ul>
                     </div>
@@ -110,10 +148,10 @@ const Navbar = () => {
                         }
                     </div>
                 </div>
-            </nav>
-
-        </div>
-
+            </nav >
+            <EnqueryForm />
+        </div >
     )
 }
-export default Navbar
+
+export default Navbar;

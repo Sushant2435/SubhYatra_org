@@ -1,8 +1,50 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Newsletter from './NewsLetter'
 import { Link } from 'react-router-dom'
+import ContactTickit from './Pages/ContactTickit'
 
 const Contact = () => {
+    const [searchTerm, setSearchTerm] = useState('');
+    const [searchResults, setSearchResults] = useState([]);
+    const [accordionOpenIndex, setAccordionOpenIndex] = useState(null);
+
+    useEffect(() => {
+        // Function to handle scrolling to the search result
+        const scrollToResult = () => {
+            if (searchResults.length > 0) {
+                const element = searchResults[0]; // Assuming we scroll to the first result
+                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        };
+
+        scrollToResult();
+    }, [searchResults]);
+    const handleSearch = () => {
+        // Clear previous search highlights and results
+        document.querySelectorAll('.highlight').forEach(element => {
+            element.classList.remove('highlight');
+        });
+
+        // Search logic
+        const foundElements = document.querySelectorAll('*');
+        const results = [];
+
+        foundElements.forEach(element => {
+            const text = element.innerText || element.textContent;
+            if (text.toLowerCase().includes(searchTerm.toLowerCase())) {
+                results.push(element);
+                element.classList.add('highlight');
+                // Check if the result is within an accordion item and open it
+                const accordionItem = element.closest('.accordion-item');
+                if (accordionItem) {
+                    const accordionIndex = Array.from(accordionItem.parentNode.children).indexOf(accordionItem);
+                    setAccordionOpenIndex(accordionIndex);
+                }
+            }
+        });
+
+        setSearchResults(results);
+    };
     return (
         <>
             <section className="py-7 bg-light">
@@ -22,7 +64,7 @@ const Contact = () => {
                             <span className=" mt-2 d-block">... or choose a category to quickly find the help you need</span>
                         </div>
                         <div className="col-md-6 col-12">
-                            <div className="d-flex align-items-center justify-content-end help-img">
+                            <div className="d-flex align-items-center justify-content-end help-img ">
                                 <img src="https://img.freepik.com/free-photo/young-beautiful-woman-casual-clothes-wearing-headset-with-microphone-smiling-making-call-me-gesture-sitting-table-with-laptop-blue-wall-working-office_141793-128259.jpg?w=900&t=st=1702456263~exp=1702456863~hmac=aa7b8c73666aa0266cb2b6c74d838ad3d814872ca0b68042c9880247fe68ac7e" alt="girlsetting" width="400" className="text-center img-fluid help-img" />
                             </div>
                         </div>
@@ -44,10 +86,10 @@ const Contact = () => {
                                             </svg>
                                         </div>
                                         <h3 className="fw-semibold"><Link to="help-center-faq.html " className=" text-dark text-decoration-none text-inherit">FAQs</Link></h3>
-                                        <p>FAQ, short htmlFor frequently asked questions, is
+                                        <p>FAQ, short For frequently asked questions, is
                                             a list of commonly asked questions and
                                             answers about a specific topic.</p>
-                                        <Link to="#" className="link-primary fw-semibold">View FAQ<i className="fa-solid fa-arrow-right ms-2"></i></Link>
+                                        <Link to="/comingup " className="link-primary fw-semibold">View FAQ<i className="fa-solid fa-arrow-right ms-2"></i></Link>
                                     </div>
                                 </div>
                             </div>
@@ -63,7 +105,7 @@ const Contact = () => {
                                         <h3 className="fw-semibold"><Link to="help-center-guide.html" className="text-dark text-decoration-none text-inherit">Guides &amp; Resources</Link>
                                         </h3>
                                         <p>UI Style Guides are a design &amp; development tool that brings cohesion to a digital product user interface &amp; experience</p>
-                                        <Link to="#" className="link-primary fw-semibold">Browse Guides<i className="fa-solid fa-arrow-right ms-2"></i></Link>
+                                        <Link to="/comingup" className="link-primary fw-semibold">Browse Guides<i className="fa-solid fa-arrow-right ms-2"></i></Link>
                                     </div>
                                 </div>
                             </div>
@@ -83,9 +125,9 @@ const Contact = () => {
                                         </div>
                                         <h3 className="fw-semibold"><Link to="help-center-support.html" className="text-dark text-decoration-none text-inherit">Support</Link></h3>
                                         <p>The good news is that youre not alone, and
-                                            youre in the right place. Contact us htmlFor more
+                                            youre in the right place. Contact us For more
                                             detailed support.</p>
-                                        <Link to="#" className="link-primary fw-semibold">Submit a Request<i className="fa-solid fa-arrow-right ms-2"></i></Link>
+                                        <Link className="link-primary fw-semibold" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Submit a Request<i className="fa-solid fa-arrow-right ms-2"></i></Link>
                                     </div>
                                 </div>
                             </div>
@@ -112,36 +154,36 @@ const Contact = () => {
                                 <div className="accordion-item">
                                     <h2 className="accordion-header">
                                         <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                                            Accordion Item #1
+                                            <strong>What is included in the travel package?</strong>
                                         </button>
                                     </h2>
                                     <div id="collapseOne" className="accordion-collapse collapse" data-bs-parent="#accordionExample">
                                         <div className="accordion-body">
-                                            <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+                                            Our travel packages typically include accommodation, meals, transportation, guided tours, and various activities. Specific inclusions vary by package, so please refer to the detailed itinerary for your selected tour.
                                         </div>
                                     </div>
                                 </div>
                                 <div className="accordion-item">
                                     <h2 className="accordion-header">
                                         <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                            Accordion Item #2
+                                            <strong>How do I book a tour with Subh Yatra?</strong>
                                         </button>
                                     </h2>
                                     <div id="collapseTwo" className="accordion-collapse collapse" data-bs-parent="#accordionExample">
                                         <div className="accordion-body">
-                                            <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+                                            Booking a tour with Subh Yatra is easy. Simply visit our website, choose your desired package, and click on the "Book Now" button. You can also contact our customer service team for assistance with your booking.
                                         </div>
                                     </div>
                                 </div>
                                 <div className="accordion-item">
                                     <h2 className="accordion-header">
                                         <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                            Accordion Item #3
+                                            <strong>What is your cancellation policy?</strong>
                                         </button>
                                     </h2>
                                     <div id="collapseThree" className="accordion-collapse collapse" data-bs-parent="#accordionExample">
                                         <div className="accordion-body">
-                                            <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+                                            Our cancellation policy varies depending on the tour package and the time of cancellation. Generally, cancellations made well in advance receive a full or partial refund. Please review the specific cancellation terms for your selected tour or contact our support team for detailed information.
                                         </div>
                                     </div>
                                 </div>
@@ -156,7 +198,7 @@ const Contact = () => {
                     <div className="row">
                         <div className="offset-lg-2 col-lg-4  col-12">
                             <div className="mb-8">
-                                <h2 className="mb-5 h1 fw-semibold">Can't find what you're looking htmlFor?</h2>
+                                <h2 className="mb-5 h1 fw-semibold">Can't find what you're looking For?</h2>
                             </div>
                         </div>
                     </div>
@@ -179,48 +221,7 @@ const Contact = () => {
                                             <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                                                 Contact
                                             </button>
-                                            <div className="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                                <div className="modal-dialog modal-dialog-centered">
-                                                    <div className="modal-content">
-                                                        <div className="modal-header">
-                                                            <h5 className="modal-title fw-bold" id="staticBackdropLabel">Contact us</h5>
-                                                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                        </div>
-                                                        <div className="modal-body">
-                                                            <div className="card bg-light" >
-                                                                <div className="text-dark  rgba-stylish-strong px-5 z-depth-2">
-                                                                    <div className="md-form mt-4">
-                                                                        <label htmlFor="Form-email5 ">Your name</label>
-                                                                        <input type="text" id="Form-email5" className="form-control white-text" />
-                                                                    </div>
-
-                                                                    <div className="md-form mt-4">
-                                                                        <label htmlFor="Form-pass5" className="">Your mail</label>
-                                                                        <input type="text" id="Form-pass5" className="form-control" />
-                                                                    </div>
-
-                                                                    <div className="md-form my-4">
-                                                                        <label htmlFor="message5">Your message</label>
-                                                                        <textarea type="text" id="message5" name="message5" rows="2" className="form-control md-textarea white-text"></textarea>
-
-                                                                    </div>
-
-                                                                    <div className="row d-flex align-items-center">
-
-                                                                        <div className="text-center mb-3 col-md-12">
-                                                                            <button type="button" className="btn btn-success btn-block btn-rounded z-depth-1 waves-effect waves-light px-4 fw-bold text-dark">Submit</button>
-                                                                        </div>
-
-                                                                    </div>
-
-                                                                </div>
-                                                            </div>
-
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            <ContactTickit />
                                         </div>
                                     </div>
                                 </div>
@@ -239,44 +240,11 @@ const Contact = () => {
                                                 </svg>
                                             </div>
                                             <h3 className="mb-2 fw-semibold">Support</h3>
-                                            <p>The good news is that you’re not alone, and you’re in the right place. Contact us htmlFor more detailed
+                                            <p>The good news is that you’re not alone, and you’re in the right place. Contact us For more detailed
                                                 support.</p>
                                             <button type="button" className="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                                                 Submit a tickit
                                             </button>
-                                            <div className="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                                <div className="modal-dialog modal-dialog-centered">
-                                                    <div className="modal-content">
-                                                        <div className="modal-header">
-                                                            <h5 className="modal-title fw-bold" id="staticBackdropLabel">Raise support tickit</h5>
-                                                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                        </div>
-                                                        <div className="modal-body">
-                                                            <div className="card bg-light" >
-                                                                <div className="text-dark  rgba-stylish-strong px-5 z-depth-2">
-                                                                    <div className="md-form mt-4">
-                                                                        <label htmlFor="Form-email5 ">Your name</label>
-                                                                        <input type="text" id="Form-email5" className="form-control white-text" />
-                                                                    </div>
-                                                                    <div className="md-form mt-4">
-                                                                        <label htmlFor="Form-pass5" className="">Your mail</label>
-                                                                        <input type="text" id="Form-pass5" className="form-control" />
-                                                                    </div>
-                                                                    <div className="md-form my-4">
-                                                                        <label htmlFor="message5">Your message</label>
-                                                                        <textarea type="text" id="message5" name="message5" rows="2" className="form-control md-textarea white-text"></textarea>
-                                                                    </div>
-                                                                    <div className="row d-flex align-items-center">
-                                                                        <div className="text-center mb-3 col-md-12">
-                                                                            <button type="button" className="btn btn-success btn-block btn-rounded z-depth-1 waves-effect waves-light px-4 fw-bold text-dark">Submit</button>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -286,22 +254,22 @@ const Contact = () => {
                 </div>
             </section >
             <section className="my-5 bg-light py-5">
-                <ul className="list-unstyled mb-0 d-flex justify-content-between  w-50 container text-center">
-                    <li className='col-2'>
+                <ul className="list-unstyled mb-0 d-flex justify-content-between flex-wrap  w-50 container text-center">
+                    <li className='col-lg-2 col-md-12 col-sm-12 col-12'>
                         <i className="fas fa-map-marker-alt fa-2x "></i>
                         <p className='mt-3' >544 Third Floor, centeral tower, Rajiv chowk Gurgaon</p>
                     </li>
-                    <li className='col-2'>
+                    <li className='col-lg-2 col-md-12 mt-md-4 mt-sm-4 mt-lg-0 col-sm-12 col-12 mt-4'>
                         <i className="fas fa-phone  fa-2x"></i>
                         <div className="mt-3">
                             <div>+ 01 234 567 89</div>
                             <span>+91 9675804042</span>
                         </div>
                     </li>
-                    <li>
-                        <i className="fas fa-envelope  fa-2x"></i>
-                        <div className='mt-3'>
-                            <div>sharmasushant245@gmail.com</div>
+                    <li className='col-lg-3 col-md-12 mt-md-4 mt-sm-4 mt-lg-0 col-sm-12 col-12 mt-4'>
+                        <i className="fas fa-envelope fa-2x"></i>
+                        <div className='mt-3 '>
+                            sharmasushant245@gmail.com
                         </div>
                     </li>
                 </ul>

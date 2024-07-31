@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { Navigate, useLocation } from "react-router-dom";
 const BASE_URL = process.env.REACT_APP_API_URL
 
 const CreateProdcut = () => {
@@ -12,32 +13,38 @@ const CreateProdcut = () => {
     const [discount, setDiscount] = useState("");
     const [duration, setduration] = useState("");
     const [price, setPrice] = useState("");
-    const [ReviewCount, setReviewCount] = useState("");
+    const [review_count, setReviewCount] = useState("");
     const [time, setTime] = useState("");
     const [description, setDescription] = useState("");
+    const [cityname, setCityName] = useState("");
+    const [cityimageurl, setCityimageurl] = useState("");
+    const [page_description, setPageDescription] = useState("");
+    const [updateMode, setUpdateMode] = useState(false);
     const [error, setError] = useState(false)
-    const addProduct = async (e) => {
-        e.preventDefault();
-        const userId = JSON.parse(localStorage.getItem('user'))._id;
-        const images = {
-            image1,
-            image2,
-            image3
-        };
-        if (!title || !type || !image || !isVideo || !image1 || !image2 || !image3 || !duration || !time || !description) {
+    const product_user = JSON.parse(localStorage.getItem('user'))._id;
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const Pid = searchParams.get('id');
+    const images = {
+        image1,
+        image2,
+        image3
+    };
+    const addProduct = async () => {
+        if (!title || !type || !image || !isVideo || !image1 || !image2 || !image3 || !duration || !time || !description || !cityname || !page_description) {
             setError(true)
             return false;
         }
         let result = await fetch(`${BASE_URL}/add-product`, {
             method: 'post',
-            body: JSON.stringify({ userId, title, type, image, isVideo, images, discount, duration, price, ReviewCount, time, description }),
+            body: JSON.stringify({ product_user, title, type, image, isVideo, images, discount, duration, price, review_count, time, description, cityname, cityimageurl, page_description }),
             headers: {
                 'Content-Type': 'application/json',
-                authorization: `bearer ${JSON.parse(localStorage.getItem('token'))}`
             }
         })
         result = await result.json();
         alert("This type new card has beed added in your user type list");
+        Navigate("/")
         setTitle("");
         settype("");
         setImage("");
@@ -51,8 +58,56 @@ const CreateProdcut = () => {
         setReviewCount("");
         setTime("");
         setDescription("");
+        setCityName("");
+        setCityimageurl("");
+        setPageDescription("");
         setError(false);
     }
+    useEffect(() => {
+        if (Pid) {
+            setUpdateMode(true);
+            getProductDetails();
+        }
+    }, [Pid]);
+    const getProductDetails = async () => {
+        let result = await fetch(`${BASE_URL}/update-product/${Pid}`);
+        result = await result.json();
+        setTitle(result.title)
+        settype(result.type)
+        setImage(result.image)
+        setisVideo(result.isVideo)
+        setImage1(result.images.image1)
+        setImage2(result.images.image2)
+        setImage3(result.images.image3)
+        setDiscount(result.discount)
+        setduration(result.duration)
+        setTime(result.time)
+        setCityimageurl(result.cityimageurl)
+        setDescription(result.description)
+        setPageDescription(result.page_description)
+        setCityName(result.cityname)
+        setPrice(result.price)
+        setReviewCount(result.review_count)
+    }
+    const updateProduct = async () => {
+        let result = await fetch(`${BASE_URL}/update-product/${Pid}`, {
+            method: 'put',
+            body: JSON.stringify({ product_user, title, type, image, images, isVideo, discount, duration, price, review_count, time, description, cityname, cityimageurl, page_description }),
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+        result = await result.json();
+        alert("Your Data updated successfully");
+
+    }
+    const handleButtonClick = () => {
+        if (updateMode) {
+            updateProduct();
+        } else {
+            addProduct();
+        }
+    };
     return (
         <div className=" mb-5" style={{ marginTop: "80px" }}>
             <div className="pt-5 pb-5 container bg-secondary rounded">
@@ -61,7 +116,7 @@ const CreateProdcut = () => {
                     <div className="row mb-4">
                         <div className="col">
                             <div className="form-outline">
-                                <label className="form-label fw-bold" for="T=title">Title</label>
+                                <label className="form-label fw-bold" for="title">Title</label>
                                 <input type="email" id="title" value={title} onChange={(e) => setTitle(e.target.value)} className="form-control" />
                                 {error && !title && <span className='invalid-input'>Enter Correct title of the card</span>}
                             </div>
@@ -71,7 +126,7 @@ const CreateProdcut = () => {
                                 <option value="" selected>Select the type of Product</option>
                                 <option value="nature">Nature</option>
                                 <option value="food">Food</option>
-                                <option value="activitis">Activities</option>
+                                <option value="activities">Activities</option>
                                 <option value="culture">Culture</option>
                             </select>
                             {error && !type && <span className='invalid-input'>Select a valid type of card</span>}
@@ -145,7 +200,7 @@ const CreateProdcut = () => {
                         <div className="col">
                             <div className="form-outline">
                                 <label className="form-label fw-bold" for="review_count">Review Count</label>
-                                <input type="number" id="review_count" value={ReviewCount} onChange={(e) => setReviewCount(e.target.value)} className="form-control" />
+                                <input type="number" id="review_count" value={review_count} onChange={(e) => setReviewCount(e.target.value)} className="form-control" />
                             </div>
                         </div>
                         <div className="col">
@@ -156,13 +211,33 @@ const CreateProdcut = () => {
                             </div>
                         </div>
                     </div>
+                    <div className="row mb-4">
+                        <div className="col">
+                            <div className="form-outline">
+                                <label className="form-label fw-bold" for="cityname">City Name</label>
+                                <input type="text" id="cityname" value={cityname} onChange={(e) => setCityName(e.target.value)} className="form-control" />
+                                {error && !cityname && <span className='invalid-input'>Enter City Name</span>}
+                            </div>
+                        </div>
+                        <div className="col">
+                            <div className="form-outline">
+                                <label className="form-label fw-bold" for="cityimageurl">City Image URL</label>
+                                <input type="url" id="cityimageurl" value={cityimageurl} onChange={(e) => setCityimageurl(e.target.value)} className="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                    <div className="form-outline mb-4">
+                        <label className="form-label fw-bold" for="page_description">Page Title Description</label>
+                        <textarea className="form-control" value={page_description} onChange={(e) => setPageDescription(e.target.value)} id="page_description" rows="2" maxLength="100"></textarea>
+                        {error && !description && <span className='invalid-input'>Enter page title description</span>}
+                    </div>
                     <div className="form-outline mb-4">
                         <label className="form-label fw-bold" for="description">Description</label>
                         <textarea className="form-control" value={description} onChange={(e) => setDescription(e.target.value)} id="description" rows="4"></textarea>
                         {error && !description && <span className='invalid-input'>Enter correct image url</span>}
                     </div>
                     <div className="text-center">
-                        <button onClick={addProduct} type="submit" className="btn btn-primary text-center mb-4 fw-bold px-4">Submit</button>
+                        <button onClick={handleButtonClick} type="button" className="btn btn-primary text-center mb-4 fw-bold px-4">{updateMode ? 'Update Product' : 'Add Product'}</button>
                     </div>
                 </form>
             </div>

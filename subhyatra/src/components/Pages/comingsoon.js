@@ -24,12 +24,10 @@ const ComingSoon = () => {
                 setTimeLeft(`${days}d ${hours}h ${minutes}m ${seconds}s`);
             }
         }, 1000);
-
         return () => {
             clearInterval(interval);
         };
     }, []);
-
     return (
         <div id="intro" className="p-5 text-center bg-image shadow-1-strong mt-10"
             style={{ backgroundImage: "url('https://mdbootstrap.com/img/new/slides/205.jpg')" }}>

@@ -1,11 +1,12 @@
 require("dotenv").config();
 require("./db/config")
-const express = require('express');
-const cors = require("cors");
+const Razorpay = require('razorpay');
 const User = require("./db/users")
-const app = express();
 const Product = require('./db/product');
 const Wishlist = require('./db/wishlist');
+const express = require('express');
+const cors = require("cors");
+const app = express();
 const Jwt = require('jsonwebtoken');
 const jwtKey = 'mern-project'
 const bcrypt = require('bcrypt');
@@ -13,9 +14,14 @@ const nodemailer = require('nodemailer');
 const SITE_BASE_URL = process.env.SITE_BASE_URL
 const PORT = process.env.PORT || 5000
 const saltRounds = 10;
-
+const crypto = require("crypto")
 app.use(express.json());
 app.use(cors());
+
+const razorpayInstance = new Razorpay({
+    key_id: process.env.RAZORPAY_KEY_ID,
+    key_secret: process.env.RAZORPAY_KEY_SECRET,
+});
 
 
 app.post('/register', async (req, res) => {
@@ -130,6 +136,24 @@ app.get("/products", async (req, res) => {
         res.send({ result: "No products found" });
     }
 })
+app.get("/search/:key", async (req, res) => {
+    const searchKey = req.params.key;
+    try {
+        const result = await Product.find({
+            "$or": [
+                { title: { $regex: searchKey, $options: 'i' } },
+                { cityname: { $regex: searchKey, $options: 'i' } },
+                { type: { $regex: searchKey, $options: 'i' } },
+                { description: { $regex: searchKey, $options: 'i' } }
+            ]
+        });
+        res.send(result);
+    } catch (error) {
+        console.error('Error performing search:', error);
+        res.status(500).send({ error: 'Internal Server Error' });
+    }
+});
+
 app.post("/add-to-wishlist", async (req, res) => {
     try {
         let wishlist = new Wishlist(req.body);
@@ -245,5 +269,81 @@ app.post('/reset-password/:id/:token', async (req, res) => {
         res.json({ status: "Something Went Wrong" });
     }
 });
+
+app.get("/search/:key", async (req, res) => {
+    const result = await Product.find({
+        "$or": [
+            {
+                name: { $regex: req.params.key }
+            },
+            {
+                city: { $regex: req.params.key }
+            },
+            {
+                category: { $regex: req.params.key }
+            }
+        ]
+    })
+    res.send(result);
+})
+// payment integration route
+app.post('/order', (req, res) => {
+    const { amount } = req.body;
+
+    try {
+        const options = {
+            amount: Number(amount) * 100,
+            currency: "INR",
+            receipt: crypto.randomBytes(10).toString("hex"),
+        }
+        razorpayInstance.orders.create(options, (error, order) => {
+            if (error) {
+                console.log(error);
+                return res.status(500).json({ message: "Something Went Wrong!" });
+            }
+            res.status(200).json({ data: order });
+            console.log(order)
+        });
+    } catch (error) {
+        res.status(500).json({ message: "Internal Server Error!" });
+        console.log(error);
+    }
+})
+app.post('/payment-verify', async (req, res) => {
+    const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
+    try {
+        const sign = razorpay_order_id + "|" + razorpay_payment_id;
+
+        // Create ExpectedSign
+        const expectedSign = crypto.createHmac("sha256", process.env.RAZORPAY_SECRET)
+            .update(sign.toString())
+            .digest("hex");
+
+
+        // Create isAuthentic
+        const isAuthentic = expectedSign === razorpay_signature;
+
+        // Condition 
+        if (isAuthentic) {
+            const payment = new Payment({
+                razorpay_order_id,
+                razorpay_payment_id,
+                razorpay_signature
+            });
+
+            // Save Payment 
+            await payment.save();
+
+            // Send Message 
+            res.json({
+                message: "Payement Successfully"
+            });
+        }
+    } catch (error) {
+        res.status(500).json({ message: "Internal Server Error!" });
+        console.log(error);
+    }
+})
+
 
 app.listen(PORT)

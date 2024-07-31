@@ -141,5 +141,4 @@ const VerifyOTP = ({ updateUser }) => {
         </div>
     );
 };
-
 export default VerifyOTP;
