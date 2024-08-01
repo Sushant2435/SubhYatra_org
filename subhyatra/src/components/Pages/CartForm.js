@@ -8,7 +8,6 @@ const Cart_form = ({ selectedProductId }) => {
     const { products } = useContext(ProductsContext);
     const filteredProducts = products.filter(item => item._id === selectedProductId);
     const selectedProduct = filteredProducts[0];
-
     const [adults, setAdults] = useState(1);
     const [totalPrice, setTotalPrice] = useState(selectedProduct.price);
     const [totalDiscountPrice, setTotalDiscountPrice] = useState(selectedProduct.price);
